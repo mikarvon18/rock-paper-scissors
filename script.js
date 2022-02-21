@@ -31,29 +31,46 @@ function playRound(playerSelection, computerSelection){
     }
 }
 
-function game(){
-    let playerWins = 0
-    let computerWins = 0
-    let ties = 0
-    for (let i = 0; i < 5; i++){
+function game(playerSelection){
+
         
-        let playerSelection = prompt("Please give your action")
-        let computerSelection = computerPlay()
-        console.log(playerSelection, computerSelection)
-        let outcome = playRound(playerSelection.toLowerCase(), computerSelection)
-        if (outcome === 0) {
-            computerWins++
-        }
-        else if (outcome === 1) {
-            playerWins++
-        }
-        else {
-            ties++
-        }
+    let computerSelection = computerPlay()
+    console.log(playerSelection, computerSelection)
+    let outcome = playRound(playerSelection.toLowerCase(), computerSelection)
+    const status = document.querySelector("#status")
+    if (outcome === 0) {
+        computerWins++
+        status.textContent = "Computer won!"
     }
-    console.log(`Computer won ${computerWins} times, you won ${playerWins} times, ties: ${ties}`)
+    else if (outcome === 1) {
+        playerWins++
+        status.textContent = "You win!"
+    }
+    else {
+        ties++
+        status.textContent = "Its a tie!"
+    }
     
+    
+    const content = document.querySelector("#score");
+    content.textContent = `Score: ${playerWins} - ${computerWins}`
+    console.log(`Computer won ${computerWins} times, you won ${playerWins} times, ties: ${ties}`)
+    if (playerWins === 5 || computerWins === 5){
+        status.textContent = "Game over!"
+        playerWins = 0
+        computerWins = 0
+        ties = 0
+    } 
 }
-game()
+let playerWins = 0
+let computerWins = 0
+let ties = 0
+const button = document.querySelectorAll('button');
+button.forEach((button) => {
+    button.addEventListener('click', () => {
+        game(button.id);
+    });
+});
+
 
 
